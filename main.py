@@ -1,4 +1,5 @@
 from datetime import date
+import os
 from flask import Flask, abort, render_template, redirect, url_for, flash, request
 from flask_bootstrap import Bootstrap5
 from flask_ckeditor import CKEditor
@@ -6,7 +7,7 @@ from flask_gravatar import Gravatar
 from flask_login import UserMixin, login_user, LoginManager, current_user, logout_user, login_required
 from flask_sqlalchemy import SQLAlchemy
 from functools import wraps
-
+from dotenv import load_dotenv, dotenv_values
 from werkzeug.exceptions import Forbidden
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.orm import relationship
@@ -28,16 +29,15 @@ pip3 install -r requirements.txt
 
 This will install the packages from the requirements.txt for this project.
 '''
-
+load_dotenv()
 app = Flask(__name__)
-app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 ckeditor = CKEditor(app)
 Bootstrap5(app)
 # initialize user session for login flask
 login_manager = LoginManager()
 login_manager.init_app(app)
 # TODO: Configure Flask-Login
-
 
 # CONNECT TO DB
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
